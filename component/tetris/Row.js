@@ -1,39 +1,45 @@
+import React, { useMemo, useEffect, useState } from "react";
 import styles from "../styles/tetris.module.css";
 
+const colors = {
+    r: styles.red,
+    b: styles.blue,
+    a: styles.aqua,
+    v: styles.blueviolet,
+    g: styles.gray,
+    o: styles.orange,
+    y: styles.yellow,
+    k: styles.black,
+};
+
 function Block({ color }) {
+    // console.log("Block");
+
     return <div className={`block ${color}  ${styles.block}`}></div>;
 }
 
-let count = 0;
-const random = function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-};
-function Row({ dataI }) {
-    const colors = [
-        styles.red,
-        styles.blue,
-        styles.aqua,
-        styles.blueviolet,
-        styles.gray,
-        styles.orange,
-        styles.yellow,
-        styles.black,
-    ];
-    if (!(dataI % 2)) {
-        count = (count + 1) % 7;
+const MemoBlock = React.memo(Block);
+
+function Row({ dataI, rowString }) {
+    // console.log("Row");
+    const [blocks, setBlocks] = useState([]);
+
+    useEffect(() => {
+        if (blocks.length === 0) {
+            for (let i = 0; i < 10; i++) {
+                blocks.push(<MemoBlock key={i} color={styles.black} />);
+            }
+            setBlocks([...blocks]);
+        }
+    });
+
+    if (blocks.length === 0) {
+        return <></>;
     }
 
-    const renderBlocks = (numberBlock, dataI) => {
-        let blocks = [];
-
-        for (let i = 0; i < numberBlock; i++) {
-            blocks.push(<Block key={i} color={styles.black} />);
-        }
-        return blocks;
-    };
     return (
         <div className={`row ${styles.row}`} id={`row-${dataI}`}>
-            {renderBlocks(10, dataI)}
+            {blocks}
         </div>
     );
 }

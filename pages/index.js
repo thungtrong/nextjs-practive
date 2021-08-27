@@ -1,40 +1,11 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Tetris.module.css";
-import { useState, useEffect } from "react";
 
 import MainBoard from "../component/tetris/MainBoard";
 import SideBoard from "../component/tetris/SideBoard";
 
-let checkSetCountListener = false;
-let gameOnGoing = false;
-
 export default function Home() {
-    const [delay, setDelay] = useState(500);
-    const [reload, changeReload] = useState([]);
-
-    useEffect(() => {
-        if (!checkSetCountListener) {
-            console.log("Content loaded");
-            document.onkeydown = (e) => {
-                if (e.key === "ArrowDown") setDelay(250);
-            };
-            document.onkeyup = (e) => {
-                if (e.key === "ArrowDown") setDelay(500);
-            };
-            checkSetCountListener = true;
-        }
-    });
-
-    useEffect(() => {
-        if (gameOnGoing) {
-            console.log("Re-render for gaphic");
-
-            setTimeout(() => {
-                changeReload([]);
-            }, delay);
-        }
-    }, [reload]);
     return (
         <div className={styles.container}>
             <Head>
