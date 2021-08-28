@@ -20,26 +20,20 @@ function Block({ color }) {
 
 const MemoBlock = React.memo(Block);
 
-function Row({ dataI, rowString }) {
-    // console.log("Row");
-    const [blocks, setBlocks] = useState([]);
-
-    useEffect(() => {
+function Row({ dataI, rowData }) {
+    const renderBlocks = () => {
+        let blocks = [];
         if (blocks.length === 0) {
-            for (let i = 0; i < 10; i++) {
-                blocks.push(<MemoBlock key={i} color={styles.black} />);
+            for (let i = 0; i < rowData.length; i++) {
+                blocks.push(<Block key={i} color={colors[rowData[i]]} />);
             }
-            setBlocks([...blocks]);
         }
-    });
-
-    if (blocks.length === 0) {
-        return <></>;
-    }
+        return blocks;
+    };
 
     return (
         <div className={`row ${styles.row}`} id={`row-${dataI}`}>
-            {blocks}
+            {renderBlocks()}
         </div>
     );
 }
